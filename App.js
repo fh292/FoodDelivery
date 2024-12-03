@@ -4,39 +4,39 @@ import { StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import CategoryList from "./src/components/screens/CategoryList";
 import RestaurantList from "./src/components/screens/RestaurantList";
+import LoginPage from "./src/components/screens/LoginPage";
+import RegisterPage from "./src/components/screens/RegisterPage";
 
 export default function App() {
   return (
-    <Fragment>
-      <SafeAreaView style={{ backgroundColor: "#89A8B2" }} />
+    <SafeAreaView style={{ flex: 1, backgroundColor: "#89A8B2" }}>
       <SafeAreaView style={styles.container}>
         <StatusBar barStyle="light-content" translucent />
         {/* header */}
         <View style={styles.header}>
           <Text style={styles.headerText}>Sufra</Text>
         </View>
+        {/* <RegisterPage />
+        <LoginPage /> */}
         <CategoryList />
         <RestaurantList />
       </SafeAreaView>
-    </Fragment>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    // marginTop: 50,
     flex: 1,
     backgroundColor: "#F1F0E8",
-    alignItems: "center",
     justifyContent: "center",
   },
   header: {
-    marginTop: 20,
     backgroundColor: "#89A8B2",
-    paddingHorizontal: 16,
     paddingBottom: 10,
     alignItems: "center",
     width: "100%",
+    paddingTop: (StatusBar.currentHeight || 24) + 20,
   },
   headerText: {
     color: "#F1F0E8",
