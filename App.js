@@ -2,26 +2,33 @@ import { StatusBar } from "expo-status-bar";
 import { Fragment } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import CategoryList from "./src/components/screens/CategoryList";
-import RestaurantList from "./src/components/screens/RestaurantList";
-import LoginPage from "./src/components/screens/LoginPage";
-import RegisterPage from "./src/components/screens/RegisterPage";
-
+import CategoryList from "./src/components/screens/Home/CategoryList";
+import RestaurantList from "./src/components/screens/Home/RestaurantList";
+import LoginPage from "./src/components/screens/Auth/LoginPage";
+import RegisterPage from "./src/components/screens/Auth/RegisterPage";
+import MenuItems from "./src/components/screens/MenuItems";
+import DishDetails from "./src/components/screens/DishDetails";
+import Cart from "./src/components/screens/Cart";
+import { NavigationContainer } from "@react-navigation/native";
+import AuthNavigation from "./src/navigation/AuthNavigation/AuthNavigation";
+import HomeNavigation from "./src/navigation/HomeNavigation/HomeNavigation";
+import MainNavigation from "./src/navigation/MainNavigation/MainNavigation";
 export default function App() {
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: "#89A8B2" }}>
-      <SafeAreaView style={styles.container}>
-        <StatusBar barStyle="light-content" translucent />
-        {/* header */}
-        <View style={styles.header}>
-          <Text style={styles.headerText}>Sufra</Text>
-        </View>
-        {/* <RegisterPage />
-        <LoginPage /> */}
-        <CategoryList />
-        <RestaurantList />
-      </SafeAreaView>
-    </SafeAreaView>
+    <NavigationContainer>
+      <StatusBar barStyle="light-content" translucent />
+      {/* header */}
+      {/* <AuthNavigation /> */}
+      {/* <HomeNavigation /> */}
+      <MainNavigation />
+      {/* <RegisterPage /> */}
+      {/* <LoginPage /> */}
+      {/* <CategoryList />
+        <RestaurantList /> */}
+      {/* <MenuItems /> */}
+      {/* <DishDetails /> */}
+      {/* <Cart /> */}
+    </NavigationContainer>
   );
 }
 
@@ -36,7 +43,7 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     alignItems: "center",
     width: "100%",
-    paddingTop: (StatusBar.currentHeight || 24) + 20,
+    paddingTop: (StatusBar.currentHeight || 24) + 5,
   },
   headerText: {
     color: "#F1F0E8",

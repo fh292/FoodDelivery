@@ -7,8 +7,10 @@ import {
   TextInput,
 } from "react-native";
 import { React, useState } from "react";
+import { useNavigation } from "@react-navigation/native";
 
 const LoginPage = () => {
+  const navigation = useNavigation();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
@@ -43,6 +45,12 @@ const LoginPage = () => {
         <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
           <Text style={styles.loginButtonText}>Log In</Text>
         </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate("Register")}>
+          <Text style={styles.registerText}>
+            Don’t have an account?{" "}
+            <Text style={styles.registerLink}>Register</Text>
+          </Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -76,7 +84,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: "bold",
     marginBottom: 30,
-    color: "#89A8B2", // Primary color
+    color: "#447E9D",
   },
   input: {
     width: "100%",
@@ -101,5 +109,16 @@ const styles = StyleSheet.create({
     color: "#F1F0E8",
     fontSize: 18,
     fontWeight: "bold",
+  },
+  registerText: {
+    fontSize: 16,
+    color: "#333",
+    marginTop: 20,
+    textAlign: "center",
+  },
+
+  registerLink: {
+    fontWeight: "bold",
+    color: "#447E9D",
   },
 });

@@ -7,13 +7,15 @@ import {
   Image,
 } from "react-native";
 import React from "react";
-import restaurants from "../data/restaurants";
+import restaurants from "../../data/restaurants";
+import { useNavigation } from "@react-navigation/native";
 
 const RestaurantList = () => {
+  const navigation = useNavigation();
   const renderRestaurant = ({ item }) => (
     <TouchableOpacity
       style={styles.card}
-      onPress={() => alert(`View ${item.name}`)}
+      onPress={() => navigation.navigate("MenuItems", { restaurant: item })}
     >
       <Image source={{ uri: item.image }} style={styles.picture} />
       <View style={styles.details}>
@@ -62,7 +64,7 @@ const styles = StyleSheet.create({
   picture: {
     width: 80,
     height: 80,
-    borderRadius: 10,
+    borderRadius: 50,
     marginRight: 15,
     borderWidth: 2,
     borderColor: "#B3C8CF",
