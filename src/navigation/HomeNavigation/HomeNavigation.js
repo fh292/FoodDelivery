@@ -1,14 +1,36 @@
-import React from "react";
+import React, { useContext } from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import HomePage from "../../components/screens/Home/HomePage";
 import MenuItems from "../../components/screens/MenuItems";
 import DishDetails from "../../components/screens/DishDetails";
 import Cart from "../../components/screens/Cart";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import UserContext from "../../context/UserContext";
+import { deleteToken } from "../../api/storage";
+import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
+
 const Stack = createNativeStackNavigator();
 
 const HomeNavigation = () => {
+  const [authenticated, setAuthenticated] = useContext(UserContext);
+
   return (
-    <Stack.Navigator>
+    <Stack.Navigator
+      screenOptions={{
+        headerRight: () => {
+          return (
+            <TouchableOpacity
+              onPress={async () => {
+                await deleteToken();
+                setAuthenticated(false);
+              }}
+            >
+              <MaterialCommunityIcons name="logout" size={24} color="red" />
+            </TouchableOpacity>
+          );
+        },
+      }}
+    >
       <Stack.Screen
         name="HomePage"
         component={HomePage}

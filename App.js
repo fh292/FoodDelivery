@@ -3,17 +3,37 @@ import { StyleSheet, Text, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import MainNavigation from "./src/navigation/MainNavigation/MainNavigation";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-
-const queryClient = new QueryClient();
+import { getToken } from "./src/api/storage";
+import { useEffect, useState } from "react";
+import UserContext from "./src/context/UserContext";
+import AuthNavigation from "./src/navigation/AuthNavigation/AuthNavigation";
 
 export default function App() {
+  const queryClient = new QueryClient();
+  const [authenticated, setAuthenticated] = useState(false); //keep track of the user status
+  const checkToken = async () => {
+    // check if the token exists
+    const token = await getToken();
+    // exists ? setAuth to true : null
+    if (token) setAuthenticated(true);
+  };
+
+  // useEffect
+  useEffect(() => {
+    checkToken();
+  });
+
   return (
     <QueryClientProvider client={queryClient}>
       <NavigationContainer>
         <StatusBar barStyle="light-content" translucent />
         {/* header */}
 
-        <MainNavigation />
+        {/* <MainNavigation /> */}
+
+        <UserContext.Provider value={[authenticated, setAuthenticated]}>
+          {authenticated ? <MainNavigation /> : <AuthNavigation />}
+        </UserContext.Provider>
       </NavigationContainer>
     </QueryClientProvider>
   );

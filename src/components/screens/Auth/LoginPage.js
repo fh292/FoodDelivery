@@ -6,13 +6,23 @@ import {
   TouchableOpacity,
   TextInput,
 } from "react-native";
-import { React, useState } from "react";
+import { React, useState, useContext } from "react";
 import { useNavigation } from "@react-navigation/native";
-
+import { useMutation } from "@tanstack/react-query";
+import { login } from "../../../api/auth";
+import UserContext from "../../../context/UserContext";
 const LoginPage = () => {
   const navigation = useNavigation();
+  const [authenticated, setAuthenticated] = useContext(UserContext);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+
+  const { mutate } = useMutation({
+    mutationFn: () => login(userInfo),
+    onSuccess: () => {
+      setAuthenticated(true);
+    },
+  });
 
   const handleLogin = () => {
     if (!username || !password) {
@@ -20,6 +30,7 @@ const LoginPage = () => {
       return;
     }
     Alert.alert("Login Successful");
+    mutate();
   };
 
   return (

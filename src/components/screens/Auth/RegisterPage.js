@@ -5,14 +5,42 @@ import {
   Alert,
   TouchableOpacity,
   TextInput,
+  Image,
 } from "react-native";
-import { React, useState } from "react";
+import { React, useState, useContext } from "react";
 import { useNavigation } from "@react-navigation/native";
-
+import * as ImagePicker from "expo-image-picker";
+import { useMutation } from "@tanstack/react-query";
+import { register } from "../../../api/auth";
+import UserContext from "../../../context/UserContext";
+import AntDesign from "@expo/vector-icons/AntDesign";
 const RegisterPage = () => {
   const navigation = useNavigation();
+  const [authenticated, setAuthenticated] = useContext(UserContext);
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [image, setImage] = useState(null);
+
+  const { mutate } = useMutation({
+    mutationFn: () => register(userInfo, image),
+    onSuccess: () => {
+      setAuthenticated(true);
+    },
+  });
+  const pickImage = async () => {
+    // No permissions request is necessary for launching the image library
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ["images", "videos"],
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+    console.log(result);
+    if (!result.canceled) {
+      setImage(result.assets[0].uri);
+    }
+  };
 
   const handleRegister = () => {
     if (!username || !password) {
@@ -20,6 +48,7 @@ const RegisterPage = () => {
       return;
     }
     Alert.alert("Registered Successful");
+    mutate();
   };
 
   return (
@@ -42,6 +71,33 @@ const RegisterPage = () => {
           onChangeText={setPassword}
           secureTextEntry={true}
         />
+        <TouchableOpacity
+          style={{ marginTop: 20, flexDirection: "row" }}
+          onPress={pickImage}
+        >
+          <AntDesign name="picture" size={18} color="#447E9D" />
+          <Text
+            style={{
+              color: "#447E9D",
+              fontSize: 16,
+              marginBottom: 15,
+              fontWeight: "bold",
+              marginLeft: 10,
+            }}
+          >
+            Upload Profile Image
+          </Text>
+        </TouchableOpacity>
+
+        {image && (
+          <Image
+            source={{ uri: image }}
+            style={{
+              width: 100,
+              height: 100,
+            }}
+          />
+        )}
         <TouchableOpacity
           style={styles.registerButton}
           onPress={handleRegister}
@@ -93,7 +149,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     padding: 15,
     borderRadius: 8,
-    marginBottom: 20,
+    marginBottom: 5,
     borderWidth: 1,
     borderColor: "#B3C8CF",
     fontSize: 16,

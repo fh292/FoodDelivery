@@ -5,6 +5,7 @@ import {
   FlatList,
   Image,
   TouchableOpacity,
+  ActivityIndicator,
 } from "react-native";
 import React from "react";
 // import restaurantCategories from "../../data/restaurantCategories";
@@ -24,8 +25,13 @@ const CategoryList = () => {
     queryFn: getCategories,
   });
 
-  if (isLoading) return <Text>Loading...</Text>;
-  // console.log(restaurantCategories);
+  if (isLoading)
+    return (
+      <Text>
+        {" "}
+        <ActivityIndicator size="large" />
+      </Text>
+    );
   return (
     <View style={styles.container}>
       <FlatList

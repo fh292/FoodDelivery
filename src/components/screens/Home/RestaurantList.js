@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   FlatList,
   Image,
+  ActivityIndicator,
 } from "react-native";
 import React from "react";
 // import restaurants from "../../data/restaurants";
@@ -34,9 +35,13 @@ const RestaurantList = () => {
     queryKey: ["restaurants"],
     queryFn: getResturants,
   });
-  if (isLoading) return <Text>Loading...</Text>;
-  console.log("rests");
-  console.log(restaurants);
+  if (isLoading)
+    return (
+      <Text>
+        {" "}
+        <ActivityIndicator size="large" />
+      </Text>
+    );
   return (
     <View style={styles.listContainer}>
       <FlatList
