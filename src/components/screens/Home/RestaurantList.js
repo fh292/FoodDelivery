@@ -7,8 +7,10 @@ import {
   Image,
 } from "react-native";
 import React from "react";
-import restaurants from "../../data/restaurants";
+// import restaurants from "../../data/restaurants";
 import { useNavigation } from "@react-navigation/native";
+import { getResturants } from "../../../api/items";
+import { useQuery } from "@tanstack/react-query";
 
 const RestaurantList = () => {
   const navigation = useNavigation();
@@ -27,12 +29,20 @@ const RestaurantList = () => {
       </View>
     </TouchableOpacity>
   );
+
+  const { data: restaurants, isLoading } = useQuery({
+    queryKey: ["restaurants"],
+    queryFn: getResturants,
+  });
+  if (isLoading) return <Text>Loading...</Text>;
+  console.log("rests");
+  console.log(restaurants);
   return (
     <View style={styles.listContainer}>
       <FlatList
         data={restaurants}
         renderItem={renderRestaurant}
-        keyExtractor={(item) => item.id.toString()}
+        keyExtractor={(item) => item._id.toString()}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.listContainer}
       />

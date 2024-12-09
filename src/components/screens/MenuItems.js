@@ -45,9 +45,9 @@ const MenuItems = ({ route }) => {
       </View>
 
       <FlatList
-        data={restaurant.menuItems}
+        data={restaurant.items}
         renderItem={renderMenuItem}
-        keyExtractor={(item) => item.id.toString()}
+        keyExtractor={(item) => item._id.toString()}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.listContainer}
       />

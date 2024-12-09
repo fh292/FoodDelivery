@@ -7,21 +7,31 @@ import {
   TouchableOpacity,
 } from "react-native";
 import React from "react";
-import restaurantCategories from "../../data/restaurantCategories";
+// import restaurantCategories from "../../data/restaurantCategories";
+import { useQuery } from "@tanstack/react-query";
+import { getCategories } from "../../../api/items";
 
 const CategoryList = () => {
   const category = ({ item }) => (
     <TouchableOpacity style={styles.card}>
-      <Image source={{ uri: item.categoryImage }} style={styles.picture} />
-      <Text style={styles.categoryName}>{item.categoryName}</Text>
+      <Image source={{ uri: item.image }} style={styles.picture} />
+      <Text style={styles.categoryName}>{item.name}</Text>
     </TouchableOpacity>
   );
+
+  const { data: restaurantCategories, isLoading } = useQuery({
+    queryKey: ["categories"],
+    queryFn: getCategories,
+  });
+
+  if (isLoading) return <Text>Loading...</Text>;
+  // console.log(restaurantCategories);
   return (
     <View style={styles.container}>
       <FlatList
         data={restaurantCategories}
         renderItem={category}
-        keyExtractor={(item) => item.id.toString()}
+        keyExtractor={(item) => item._id.toString()}
         horizontal
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={styles.listContainer}

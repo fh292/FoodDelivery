@@ -1,34 +1,21 @@
 import { StatusBar } from "expo-status-bar";
-import { Fragment } from "react";
 import { StyleSheet, Text, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import CategoryList from "./src/components/screens/Home/CategoryList";
-import RestaurantList from "./src/components/screens/Home/RestaurantList";
-import LoginPage from "./src/components/screens/Auth/LoginPage";
-import RegisterPage from "./src/components/screens/Auth/RegisterPage";
-import MenuItems from "./src/components/screens/MenuItems";
-import DishDetails from "./src/components/screens/DishDetails";
-import Cart from "./src/components/screens/Cart";
 import { NavigationContainer } from "@react-navigation/native";
-import AuthNavigation from "./src/navigation/AuthNavigation/AuthNavigation";
-import HomeNavigation from "./src/navigation/HomeNavigation/HomeNavigation";
 import MainNavigation from "./src/navigation/MainNavigation/MainNavigation";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+const queryClient = new QueryClient();
+
 export default function App() {
   return (
-    <NavigationContainer>
-      <StatusBar barStyle="light-content" translucent />
-      {/* header */}
-      {/* <AuthNavigation /> */}
-      {/* <HomeNavigation /> */}
-      <MainNavigation />
-      {/* <RegisterPage /> */}
-      {/* <LoginPage /> */}
-      {/* <CategoryList />
-        <RestaurantList /> */}
-      {/* <MenuItems /> */}
-      {/* <DishDetails /> */}
-      {/* <Cart /> */}
-    </NavigationContainer>
+    <QueryClientProvider client={queryClient}>
+      <NavigationContainer>
+        <StatusBar barStyle="light-content" translucent />
+        {/* header */}
+
+        <MainNavigation />
+      </NavigationContainer>
+    </QueryClientProvider>
   );
 }
 
