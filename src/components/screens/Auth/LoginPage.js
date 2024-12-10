@@ -17,9 +17,15 @@ const LoginPage = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
+  const userInfo = {
+    username: username,
+    password: password,
+  };
+
   const { mutate } = useMutation({
     mutationFn: () => login(userInfo),
     onSuccess: () => {
+      console.log("done");
       setAuthenticated(true);
     },
   });

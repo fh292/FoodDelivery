@@ -25,7 +25,7 @@ const HomeNavigation = () => {
                 setAuthenticated(false);
               }}
             >
-              <MaterialCommunityIcons name="logout" size={24} color="red" />
+              <MaterialCommunityIcons name="logout" size={24} color="white" />
             </TouchableOpacity>
           );
         },

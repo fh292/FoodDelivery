@@ -15,7 +15,6 @@ const register = async (userInfo, image) => {
    * {"email": "aya2@aya2.com", "name": "aya2", "password": "123"}
    */
 
-  console.log(image);
   for (key in userInfo) {
     formData.append(key, userInfo[key]);
   }
@@ -23,8 +22,9 @@ const register = async (userInfo, image) => {
   formData.append("image", {
     name: "image.jpg",
     type: "image/jpeg",
-    uri: image,
+    uri: image.uri,
   });
+  console.log(formData.image);
   // extract image properties (name, type, uri) and add them to FD
   const { data } = await instance.post("/auth/register", formData);
   setToken(data.token);
@@ -32,7 +32,7 @@ const register = async (userInfo, image) => {
 };
 
 const me = async () => {
-  const { data } = await instance.get("/auth/me");
+  const { data } = await instance.get("/auth/profile");
   return data;
 };
 

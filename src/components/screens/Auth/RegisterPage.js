@@ -22,6 +22,11 @@ const RegisterPage = () => {
   const [password, setPassword] = useState("");
   const [image, setImage] = useState(null);
 
+  const userInfo = {
+    username: username,
+    password: password,
+  };
+
   const { mutate } = useMutation({
     mutationFn: () => register(userInfo, image),
     onSuccess: () => {

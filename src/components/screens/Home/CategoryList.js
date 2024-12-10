@@ -27,7 +27,7 @@ const CategoryList = () => {
 
   if (isLoading)
     return (
-      <Text>
+      <Text style={{ justifyContent: "center", alignItems: "center" }}>
         {" "}
         <ActivityIndicator size="large" />
       </Text>
