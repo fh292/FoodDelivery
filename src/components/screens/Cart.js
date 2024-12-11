@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -9,15 +9,25 @@ import {
   Alert,
 } from "react-native";
 
-const Cart = () => {
+const Cart = ({ route }) => {
+  const { cart = [] } = route.params || {};
   const [cartItems, setCartItems] = useState([]);
 
+  // Initialize cart items when the component mounts
+  // useEffect(() => {
+  //   if (cart && Array.isArray(cart)) {
+  //     setCartItems(cart);
+  //   }
+  // }, [cart]);
+
+  // Calculate the total price of the cart
   const calculateTotal = () => {
     return cartItems
       .reduce((total, item) => total + item.price * item.quantity, 0)
       .toFixed(2);
   };
 
+  // Increment the quantity of an item
   const handleIncrement = (itemId) => {
     setCartItems((prevItems) =>
       prevItems.map((item) =>
@@ -26,14 +36,18 @@ const Cart = () => {
     );
   };
 
+  // Decrement the quantity of an item, ensuring it doesn't go below 1
   const handleDecrement = (itemId) => {
     setCartItems((prevItems) =>
       prevItems.map((item) =>
-        item.id === itemId ? { ...item, quantity: item.quantity - 1 } : item
+        item.id === itemId
+          ? { ...item, quantity: Math.max(1, item.quantity - 1) }
+          : item
       )
     );
   };
 
+  // Render a single cart item
   const renderCartItem = ({ item }) => (
     <View style={styles.cartItem}>
       <Image source={{ uri: item.image }} style={styles.cartImage} />
@@ -43,14 +57,14 @@ const Cart = () => {
         <View style={styles.quantityContainer}>
           <TouchableOpacity
             style={styles.quantityButton}
-            onPress={() => handleDecrement(item.id)}
+            onPress={() => handleDecrement(item._id)}
           >
             <Text style={styles.quantityButtonText}>-</Text>
           </TouchableOpacity>
           <Text style={styles.quantityText}>{item.quantity}</Text>
           <TouchableOpacity
             style={styles.quantityButton}
-            onPress={() => handleIncrement(item.id)}
+            onPress={() => handleIncrement(item._id)}
           >
             <Text style={styles.quantityButtonText}>+</Text>
           </TouchableOpacity>
@@ -62,22 +76,28 @@ const Cart = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.heading}>Your Cart</Text>
-      <FlatList
-        data={cartItems}
-        renderItem={renderCartItem}
-        keyExtractor={(item) => item.id.toString()}
-        showsVerticalScrollIndicator={false}
-      />
-      <View style={styles.totalContainer}>
-        <Text style={styles.totalText}>Total:</Text>
-        <Text style={styles.totalPrice}>${calculateTotal()}</Text>
-      </View>
-      <TouchableOpacity
-        style={styles.checkoutButton}
-        onPress={() => Alert.alert("Checkout", "Proceed to payment?")}
-      >
-        <Text style={styles.checkoutButtonText}>Checkout</Text>
-      </TouchableOpacity>
+      {cartItems.length === 0 ? (
+        <Text style={styles.emptyCartText}>Your cart is empty.</Text>
+      ) : (
+        <>
+          <FlatList
+            data={cartItems}
+            renderItem={renderCartItem}
+            keyExtractor={(item, index) => `${item._id}-${index}`}
+            showsVerticalScrollIndicator={false}
+          />
+          <View style={styles.totalContainer}>
+            <Text style={styles.totalText}>Total:</Text>
+            <Text style={styles.totalPrice}>${calculateTotal()}</Text>
+          </View>
+          <TouchableOpacity
+            style={styles.checkoutButton}
+            onPress={() => Alert.alert("Checkout", "Proceed to payment?")}
+          >
+            <Text style={styles.checkoutButtonText}>Checkout</Text>
+          </TouchableOpacity>
+        </>
+      )}
     </View>
   );
 };
@@ -96,6 +116,12 @@ const styles = StyleSheet.create({
     color: "#447E9D",
     marginBottom: 20,
     textAlign: "center",
+  },
+  emptyCartText: {
+    fontSize: 18,
+    color: "#333",
+    textAlign: "center",
+    marginTop: 20,
   },
   cartItem: {
     flexDirection: "row",

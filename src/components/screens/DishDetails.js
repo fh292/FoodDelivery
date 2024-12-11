@@ -9,15 +9,34 @@ import {
 import { useState } from "react";
 import React from "react";
 import { useNavigation } from "@react-navigation/native";
+import CartContext from "../../context/CartContext";
+import { useContext } from "react";
+
 const DishDetails = ({ route }) => {
   const navigation = useNavigation();
   const { dish } = route.params;
   const [quantity, setQuantity] = useState(1);
+  const { cart, addToCart } = useContext(CartContext);
+  // const handleAddToCart = () => {
+  //   Alert.alert("Added to Cart");
+  //   const cartItem = {
+  //     ...dish,
+  //     quantity,
+  //     totalPrice: dish.price * quantity,
+  //   };
+  //   navigation.navigate("Cart", { cart: [cartItem] }); // Passing the cart item to the Cart screen
+  // };
+
   const handleAddToCart = () => {
+    const cartItem = {
+      ...dish,
+      quantity,
+      totalPrice: dish.price * quantity,
+    };
+    addToCart(cartItem); // Use the context method
     Alert.alert("Added to Cart");
-    setQuantity(quantity + 1);
-    navigation.navigate("Cart");
   };
+
   const increaseQuantity = () => setQuantity(quantity + 1);
   const decreaseQuantity = () => setQuantity(quantity > 1 ? quantity - 1 : 1);
 

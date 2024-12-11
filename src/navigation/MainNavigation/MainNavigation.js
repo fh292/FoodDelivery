@@ -6,6 +6,8 @@ import HomeNavigation from "../HomeNavigation/HomeNavigation";
 import AuthNavigation from "../AuthNavigation/AuthNavigation";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import Cart from "../../components/screens/Cart";
+import Feather from "@expo/vector-icons/Feather";
 const Tab = createBottomTabNavigator();
 
 const MainNavigation = () => {
@@ -28,6 +30,16 @@ const MainNavigation = () => {
           headerShown: false,
           tabBarIcon: ({ color }) => (
             <MaterialIcons name="login" size={24} color="black" />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Cart"
+        component={Cart}
+        options={{
+          headerShown: false,
+          tabBarIcon: ({ color }) => (
+            <Feather name="shopping-cart" size={24} color="black" />
           ),
         }}
       />

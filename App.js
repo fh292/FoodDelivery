@@ -7,9 +7,11 @@ import { getToken } from "./src/api/storage";
 import { useEffect, useState } from "react";
 import UserContext from "./src/context/UserContext";
 import AuthNavigation from "./src/navigation/AuthNavigation/AuthNavigation";
-
+import CartContext from "./src/context/CartContext";
 export default function App() {
   const queryClient = new QueryClient();
+  const [cart, setCart] = useState([]);
+
   const [authenticated, setAuthenticated] = useState(false); //keep track of the user status
   const checkToken = async () => {
     // check if the token exists
@@ -32,7 +34,9 @@ export default function App() {
         {/* <MainNavigation /> */}
 
         <UserContext.Provider value={[authenticated, setAuthenticated]}>
-          {authenticated ? <MainNavigation /> : <AuthNavigation />}
+          <CartContext.Provider value={cart} setCart={setCart}>
+            {authenticated ? <MainNavigation /> : <AuthNavigation />}
+          </CartContext.Provider>
         </UserContext.Provider>
       </NavigationContainer>
     </QueryClientProvider>

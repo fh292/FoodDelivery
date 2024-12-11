@@ -8,10 +8,13 @@ import {
 } from "react-native";
 import React from "react";
 import { useNavigation } from "@react-navigation/native";
-
+import CartContext from "../../context/CartContext";
+import { useContext } from "react";
 const MenuItems = ({ route }) => {
   const navigation = useNavigation();
   const { restaurant } = route.params;
+  const { cart, addToCart } = useContext(CartContext);
+
   const renderMenuItem = ({ item }) => (
     <TouchableOpacity
       onPress={() => navigation.navigate("DishDetails", { dish: item })}
@@ -22,7 +25,10 @@ const MenuItems = ({ route }) => {
           <Text style={styles.menuName}>{item.name}</Text>
           <Text style={styles.menuDescription}>{item.description}</Text>
           <Text style={styles.menuPrice}>Price: {item.price}</Text>
-          <TouchableOpacity style={styles.addButton}>
+          <TouchableOpacity
+            style={styles.addButton}
+            onPress={() => addToCart({ ...item, quantity: 1 })}
+          >
             <Text style={styles.addButtonText}>Add to Cart</Text>
           </TouchableOpacity>
         </View>

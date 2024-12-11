@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import HomePage from "../../components/screens/Home/HomePage";
 import MenuItems from "../../components/screens/MenuItems";
@@ -13,7 +13,6 @@ const Stack = createNativeStackNavigator();
 
 const HomeNavigation = () => {
   const [authenticated, setAuthenticated] = useContext(UserContext);
-
   return (
     <Stack.Navigator
       screenOptions={{
